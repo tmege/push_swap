@@ -1,65 +1,65 @@
 #ifndef PUSH_SWAP_H
-#define PUSH_SWAP_H
+# define PUSH_SWAP_H
 
 # include <stdlib.h>
 # include <unistd.h>
 # include "libft/includes/libft.h"
 
-// === STRUCTURES ===
-
-typedef struct s_node
+typedef struct s_elem
 {
-    int             value;
-    int             index;   // index trié
-    struct s_node   *next;
-    struct s_node   *prev;
-}   t_node;
+    int value;
+    int index;
+}   t_elem;
 
 typedef struct s_stack
 {
-    t_node  *head;
-    int     size;
+    t_elem *arr;
+    int size;
+    int capacity;
 }   t_stack;
 
-// === PARSING ===
+typedef struct s_ops
+{
+    char    **tab;
+    int     size;
+    int     cap;
+}   t_ops;
+
+void	init_ops(t_ops *ops);
+void	add_op(t_ops *ops, char *op);
+void	optimize_ops(t_ops *ops);
+void	print_ops(t_ops *ops);
+void	free_ops(t_ops *ops);
+
+// parsing.c
+void    error_exit(void);
+int     is_number(char *str);
+void    free_stack(t_stack *stack);
+long	ft_atol(const char *str);
 void    parse_args(int argc, char **argv, t_stack *a);
 
-// === GESTION STACK ===
-t_node  *new_node(int value);
-void    stack_add_back(t_stack *stack, t_node *new);
-void    stack_add_top(t_stack *stack, t_node *new);
-void    free_stack(t_stack *stack);
+// indexing.c
+void    index_stack(t_stack *a);
 
-// === ERREURS ===
-void    error_exit(t_stack *a, t_stack *b);
-void	print_stack(t_stack *stack, char name);
+// operations.c
+void    swap(t_stack *s, t_ops *ops, char *op);
+void    push(t_stack *src, t_stack *dst, t_ops *ops, char *op);
+void    rotate(t_stack *s, t_ops *ops, char *op);
+void    revrotate(t_stack *s, t_ops *ops, char *op);
 
-// === INDEXATION ===
-void    assign_indexes(t_stack *stack);
-
-// === OPERATIONS (push_swap) ===
-void    sa(t_stack *a);
-void    sb(t_stack *b);
-void    ss(t_stack *a, t_stack *b);
-void    pa(t_stack *a, t_stack *b);
-void    pb(t_stack *a, t_stack *b);
-void    ra(t_stack *a);
-void    rb(t_stack *b);
-void    rr(t_stack *a, t_stack *b);
-void    rra(t_stack *a);
-void    rrb(t_stack *b);
-void    rrr(t_stack *a, t_stack *b);
-
-// === TRI PETITES STACKS ===
-void    sort_small_stack(t_stack *a, t_stack *b);
-
-// === TRI BIG (CHUNKS/PIVOT) ===
-void    sort_big_stack(t_stack *a, t_stack *b);
-
-// === UTILS ===
-int     stack_is_sorted(t_stack *a);
-int     is_number(char *str);
-int     is_duplicate(t_stack *stack, int value);
+// sort.c
+int     is_sorted(t_stack *a);
+void	sort_2(t_stack *a, t_ops *ops);
+void	sort_3(t_stack *a, t_ops *ops);
+int	min_pos(t_stack *a);
+void	min_to_top(t_stack *a, t_ops *ops);
+void	sort_4(t_stack *a, t_stack *b, t_ops *ops);
+void	sort_5(t_stack *a, t_stack *b, t_ops *ops);
+void    sort_small_stack(t_stack *a, t_stack *b, t_ops *ops);
+void	push_max_to_top_b(t_stack *b, t_ops *ops);
+int	pick_chunk_size(int size);
+void	chunk_sort(t_stack *a, t_stack *b, t_ops *ops);
 
 #endif
+
 

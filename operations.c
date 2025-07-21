@@ -1,135 +1,77 @@
 #include "push_swap.h"
 
-// ----- ACTIONS GENERIQUES -----
-
-void    swap(t_stack *s)
+void	swap(t_stack *s, t_ops *ops, char *op)
 {
-    t_node *f, *s2;
-    int tmp_val, tmp_idx;
+	t_elem	tmp;
 
-    if (!s || s->size < 2)
-        return;
-    f = s->head;
-    s2 = s->head->next;
-    tmp_val = f->value;
-    tmp_idx = f->index;
-    f->value = s2->value;
-    f->index = s2->index;
-    s2->value = tmp_val;
-    s2->index = tmp_idx;
+	if (s->size < 2)
+		return;
+	tmp = s->arr[0];
+	s->arr[0] = s->arr[1];
+	s->arr[1] = tmp;
+	if (op && ops)
+		add_op(ops, op);
 }
 
-void    push(t_stack *src, t_stack *dst)
+void	push(t_stack *src, t_stack *dst, t_ops *ops, char *op)
 {
-    t_node *top;
+	int	i;
 
-    if (!src || src->size == 0)
-        return;
-    top = src->head;
-
-    // retirer top de src
-    if (src->size == 1)
-    {
-        src->head = NULL;
-        src->size--;
-    }
-    else
-    {
-        src->head = top->next;
-        src->head->prev = top->prev;
-        top->prev->next = src->head;
-        src->size--;
-    }
-
-    // ajouter top à dst
-    if (!dst->head)
-    {
-        top->next = top;
-        top->prev = top;
-        dst->head = top;
-    }
-    else
-    {
-        top->next = dst->head;
-        top->prev = dst->head->prev;
-        dst->head->prev->next = top;
-        dst->head->prev = top;
-        dst->head = top;
-    }
-    dst->size++;
+	if (src->size < 1)
+		return;
+	i = dst->size;
+	while (i > 0)
+	{
+		dst->arr[i] = dst->arr[i - 1];
+		i--;
+	}
+	dst->arr[0] = src->arr[0];
+	dst->size++;
+	i = 0;
+	while (i < src->size - 1)
+	{
+		src->arr[i] = src->arr[i + 1];
+		i++;
+	}
+	src->size--;
+	if (op && ops)
+		add_op(ops, op);
 }
 
-
-void    rotate(t_stack *s)
+void	rotate(t_stack *s, t_ops *ops, char *op)
 {
-    if (s && s->size > 1)
-        s->head = s->head->next;
+	t_elem	tmp;
+	int		i;
+
+	if (s->size < 2)
+		return;
+	tmp = s->arr[0];
+	i = 0;
+	while (i < s->size - 1)
+	{
+		s->arr[i] = s->arr[i + 1];
+		i++;
+	}
+	s->arr[s->size - 1] = tmp;
+	if (op && ops)
+		add_op(ops, op);
 }
 
-void    revrotate(t_stack *s)
+void	revrotate(t_stack *s, t_ops *ops, char *op)
 {
-    if (s && s->size > 1)
-        s->head = s->head->prev;
+	t_elem	tmp;
+	int		i;
+
+	if (s->size < 2)
+		return;
+	tmp = s->arr[s->size - 1];
+	i = s->size - 1;
+	while (i > 0)
+	{
+		s->arr[i] = s->arr[i - 1];
+		i--;
+	}
+	s->arr[0] = tmp;
+	if (op && ops)
+		add_op(ops, op);
 }
-
-#include "push_swap.h"
-
-void    sa(t_stack *a) {
-    swap(a);
-    write(1, "sa\n", 3);
-}
-
-void    sb(t_stack *b) {
-    swap(b);
-    write(1, "sb\n", 3);
-}
-
-void    ss(t_stack *a, t_stack *b) {
-    swap(a);
-    swap(b);
-    write(1, "ss\n", 3);
-}
-
-void    pa(t_stack *a, t_stack *b) {
-    push(b, a);
-    write(1, "pa\n", 3);
-}
-
-void    pb(t_stack *a, t_stack *b) {
-    push(a, b);
-    write(1, "pb\n", 3);
-}
-
-void    ra(t_stack *a) {
-    rotate(a);
-    write(1, "ra\n", 3);
-}
-
-void    rb(t_stack *b) {
-    rotate(b);
-    write(1, "rb\n", 3);
-}
-
-void    rr(t_stack *a, t_stack *b) {
-    rotate(a);
-    rotate(b);
-    write(1, "rr\n", 3);
-}
-
-void    rra(t_stack *a) {
-    revrotate(a);
-    write(1, "rra\n", 4);
-}
-
-void    rrb(t_stack *b) {
-    revrotate(b);
-    write(1, "rrb\n", 4);
-}
-
-void    rrr(t_stack *a, t_stack *b) {
-    revrotate(a);
-    revrotate(b);
-    write(1, "rrr\n", 4);
-}
-
-

@@ -2,7 +2,7 @@ NAME		= push_swap
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 
-SRC			= main.c print_stack.c index.c parser.c error.c sort_small.c operations.c stack_utils.c sort_stack.c
+SRC			= main.c indexing.c parsing.c parsing_utils.c sort.c sort_small.c sort_utils.c operations.c ops.c optimize_ops.c
 OBJ			= $(SRC:.c=.o)
 
 LIBFT_DIR	= ./libft
