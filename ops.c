@@ -1,6 +1,16 @@
-#include "push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ops.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmege <tmege@student.42barcelona.com>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/22 19:02:22 by tmege             #+#    #+#             */
+/*   Updated: 2025/07/22 19:05:22 by tmege            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// === Gestion du buffer d'instructions ===
+#include "push_swap.h"
 
 void	init_ops(t_ops *ops)
 {
@@ -13,10 +23,13 @@ void	init_ops(t_ops *ops)
 
 void	add_op(t_ops *ops, char *op)
 {
+	char	**new;
+	int		i;
+
 	if (ops->size >= ops->cap)
 	{
-		char **new = malloc(sizeof(char*) * (ops->cap * 2));
-		int i = 0;
+		new = malloc(sizeof(char *) * (ops->cap * 2));
+		i = 0;
 		if (!new)
 			error_exit();
 		while (i < ops->size)
@@ -33,7 +46,9 @@ void	add_op(t_ops *ops, char *op)
 
 void	print_ops(t_ops *ops)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < ops->size)
 	{
 		write(1, ops->tab[i], ft_strlen(ops->tab[i]));
@@ -43,9 +58,10 @@ void	print_ops(t_ops *ops)
 
 void	free_ops(t_ops *ops)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < ops->size)
 		free(ops->tab[i++]);
 	free(ops->tab);
 }
-

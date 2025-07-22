@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_small.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmege <tmege@student.42barcelona.com>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/22 18:26:39 by tmege             #+#    #+#             */
+/*   Updated: 2025/07/22 18:27:48 by tmege            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	sort_2(t_stack *a, t_ops *ops)
@@ -8,12 +20,15 @@ void	sort_2(t_stack *a, t_ops *ops)
 
 void	sort_3(t_stack *a, t_ops *ops)
 {
-	int	x = a->arr[0].value;
-	int	y = a->arr[1].value;
-	int	z = a->arr[2].value;
+	int	x;
+	int	y;
+	int	z;
 
+	x = a->arr[0].value;
+	y = a->arr[1].value;
+	z = a->arr[2].value;
 	if (x < y && y < z)
-		return;
+		return ;
 	if (x > y && y < z && x < z)
 		swap(a, ops, "sa\n");
 	else if (x > y && y > z)

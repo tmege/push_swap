@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmege <tmege@student.42barcelona.com>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/22 18:36:33 by tmege             #+#    #+#             */
+/*   Updated: 2025/07/22 18:41:37 by tmege            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	sort_small_stack(t_stack *a, t_stack *b, t_ops *ops)
@@ -15,9 +27,13 @@ void	sort_small_stack(t_stack *a, t_stack *b, t_ops *ops)
 // Ramène le plus grand index de B en haut (avec ops)
 void	push_max_to_top_b(t_stack *b, t_ops *ops)
 {
-	int max = b->arr[0].index;
-	int pos = 0;
-	int i = 1;
+	int	max;
+	int	pos;
+	int	i;
+
+	max = b->arr[0].index;
+	pos = 0;
+	i = 1;
 	while (i < b->size)
 	{
 		if (b->arr[i].index > max)
@@ -40,36 +56,45 @@ void	push_max_to_top_b(t_stack *b, t_ops *ops)
 int	pick_chunk_size(int size)
 {
 	if (size >= 500)
-		return 46;
+		return (46);
 	else if (size >= 100)
-		return 18;
+		return (18);
 	else if (size > 10)
-		return size / 5 + 4; // règle empirique efficace pour les tailles intermédiaires
+		return (size / 5 + 4);
 	else
-		return 2;       // pour les toutes petites listes (>5 gérées ailleurs)
+		return (2);
 }
 
 // Algo principal : tri par chunk (avec ops)
 void	chunk_sort(t_stack *a, t_stack *b, t_ops *ops)
 {
-	int	size = a->size;
-	int	chunk_size = pick_chunk_size(size);
-	int	chunk_min = 0;
-	int	chunk_max = chunk_size - 1;
-	int	pushed = 0;
+	int	size;
+	int	chunk_size;
+	int	chunk_min;
+	int	chunk_max;
+	int	pushed;
+	int	i;
+	int	len;
+	int	idx;
+
+	size = a->size;
+	chunk_size = pick_chunk_size(size);
+	chunk_min = 0;
+	chunk_max = chunk_size - 1;
+	pushed = 0;
 	while (pushed < size)
 	{
-		int	i = 0;
-		int	len = a->size;
+		i = 0;
+		len = a->size;
 		while (i < len)
 		{
-			int idx = a->arr[0].index;
+			idx = a->arr[0].index;
 			if (idx >= chunk_min && idx <= chunk_max)
 			{
 				push(a, b, ops, "pb\n");
 				pushed++;
 				if (idx > chunk_min + (chunk_size / 2) && b->size > 1)
- 				   rotate(b, ops, "rb\n");
+					rotate(b, ops, "rb\n");
 			}
 			else
 				rotate(a, ops, "ra\n");

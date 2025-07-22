@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operations.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmege <tmege@student.42barcelona.com>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/22 18:54:53 by tmege             #+#    #+#             */
+/*   Updated: 2025/07/22 18:57:48 by tmege            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	swap(t_stack *s, t_ops *ops, char *op)
@@ -5,7 +17,7 @@ void	swap(t_stack *s, t_ops *ops, char *op)
 	t_elem	tmp;
 
 	if (s->size < 2)
-		return;
+		return ;
 	tmp = s->arr[0];
 	s->arr[0] = s->arr[1];
 	s->arr[1] = tmp;
@@ -18,7 +30,7 @@ void	push(t_stack *src, t_stack *dst, t_ops *ops, char *op)
 	int	i;
 
 	if (src->size < 1)
-		return;
+		return ;
 	i = dst->size;
 	while (i > 0)
 	{
@@ -44,7 +56,7 @@ void	rotate(t_stack *s, t_ops *ops, char *op)
 	int		i;
 
 	if (s->size < 2)
-		return;
+		return ;
 	tmp = s->arr[0];
 	i = 0;
 	while (i < s->size - 1)
@@ -63,7 +75,7 @@ void	revrotate(t_stack *s, t_ops *ops, char *op)
 	int		i;
 
 	if (s->size < 2)
-		return;
+		return ;
 	tmp = s->arr[s->size - 1];
 	i = s->size - 1;
 	while (i > 0)

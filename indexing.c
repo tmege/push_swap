@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   indexing.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmege <tmege@student.42barcelona.com>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/22 18:22:14 by tmege             #+#    #+#             */
+/*   Updated: 2025/07/22 18:23:23 by tmege            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 // Compare int, croissant (pour qsort)
@@ -37,7 +49,7 @@ void	index_stack(t_stack *a)
 			if (a->arr[i].value == tmp[j])
 			{
 				a->arr[i].index = j;
-				break;
+				break ;
 			}
 			j++;
 		}
@@ -45,4 +57,3 @@ void	index_stack(t_stack *a)
 	}
 	free(tmp);
 }
-
