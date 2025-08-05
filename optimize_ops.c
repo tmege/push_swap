@@ -45,40 +45,50 @@ static int	neutral(char *a, char *b)
 	return (0);
 }
 
+static void	shift_ops(t_ops *ops, int start, int shift)
+{
+	int	j;
+
+	j = start;
+	while (j < ops->size - shift)
+	{
+		ops->tab[j] = ops->tab[j + shift];
+		j++;
+	}
+	ops->size -= shift;
+}
+
+static int	try_optimize_pair(t_ops *ops, int i)
+{
+	char	*fusion_op;
+
+	if (fusion(ops->tab[i], ops->tab[i + 1], &fusion_op))
+	{
+		free(ops->tab[i]);
+		free(ops->tab[i + 1]);
+		ops->tab[i] = ft_strdup(fusion_op);
+		shift_ops(ops, i + 1, 1);
+		return (1);
+	}
+	else if (neutral(ops->tab[i], ops->tab[i + 1]))
+	{
+		free(ops->tab[i]);
+		free(ops->tab[i + 1]);
+		shift_ops(ops, i, 2);
+		return (1);
+	}
+	return (0);
+}
+
 void	optimize_ops(t_ops *ops)
 {
-	int		i;
-	int		j;
-	char	*fusion_op;
+	int	i;
 
 	i = 0;
 	while (i < ops->size - 1)
 	{
-		if (fusion(ops->tab[i], ops->tab[i + 1], &fusion_op))
+		if (try_optimize_pair(ops, i))
 		{
-			free(ops->tab[i]);
-			free(ops->tab[i + 1]);
-			ops->tab[i] = ft_strdup(fusion_op);
-			j = i + 1;
-			while (j < ops->size - 1)
-			{
-				ops->tab[j] = ops->tab[j + 1]
-					j++;
-			}
-			ops->size--;
-			continue ;
-		}
-		else if (neutral(ops->tab[i], ops->tab[i + 1]))
-		{
-			free(ops->tab[i]);
-			free(ops->tab[i + 1]);
-			j = i;
-			while (j < ops->size - 2)
-			{
-				ops->tab[j] = ops->tab[j + 2];
-				j++;
-			}
-			ops->size -= 2;
 			if (i > 0)
 				i--;
 			continue ;

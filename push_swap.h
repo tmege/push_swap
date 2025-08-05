@@ -37,6 +37,15 @@ typedef struct s_ops
 	int		cap;
 }	t_ops;
 
+typedef struct s_chunk
+{
+	int	min;
+	int	max;
+	int	size;
+	int	chunk_size;
+	int	*pushed;
+}	t_chunk;
+
 void	init_ops(t_ops *ops);
 void	add_op(t_ops *ops, char *op);
 void	optimize_ops(t_ops *ops);
@@ -46,6 +55,7 @@ void	free_ops(t_ops *ops);
 // parsing.c
 void	error_exit(void);
 int		is_number(char *str);
+int		is_duplicate(t_stack *a, int value);
 void	free_stack(t_stack *stack);
 long	ft_atol(const char *str);
 void	parse_args(int argc, char **argv, t_stack *a);

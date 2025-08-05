@@ -6,52 +6,11 @@
 /*   By: tmege <tmege@student.42barcelona.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 18:36:33 by tmege             #+#    #+#             */
-/*   Updated: 2025/07/22 18:41:37 by tmege            ###   ########.fr       */
+/*   Updated: 2025/08/05 17:17:37 by tmege            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	sort_small_stack(t_stack *a, t_stack *b, t_ops *ops)
-{
-	if (a->size == 2)
-		sort_2(a, ops);
-	else if (a->size == 3)
-		sort_3(a, ops);
-	else if (a->size == 4)
-		sort_4(a, b, ops);
-	else if (a->size == 5)
-		sort_5(a, b, ops);
-}
-
-// Ramène le plus grand index de B en haut (avec ops)
-void	push_max_to_top_b(t_stack *b, t_ops *ops)
-{
-	int	max;
-	int	pos;
-	int	i;
-
-	max = b->arr[0].index;
-	pos = 0;
-	i = 1;
-	while (i < b->size)
-	{
-		if (b->arr[i].index > max)
-		{
-			max = b->arr[i].index;
-			pos = i;
-		}
-		i++;
-	}
-	if (pos == 1)
-		swap(b, ops, "sb\n");
-	else if (pos <= b->size / 2)
-		while (pos-- > 0)
-			rotate(b, ops, "rb\n");
-	else
-		while (pos++ < b->size)
-			revrotate(b, ops, "rrb\n");
-}
 
 int	pick_chunk_size(int size)
 {
@@ -65,49 +24,62 @@ int	pick_chunk_size(int size)
 		return (2);
 }
 
-// Algo principal : tri par chunk (avec ops)
-void	chunk_sort(t_stack *a, t_stack *b, t_ops *ops)
+static void	push_chunk_elem(t_stack *a, t_stack *b, t_ops *ops, t_chunk chunk)
 {
-	int	size;
-	int	chunk_size;
-	int	chunk_min;
-	int	chunk_max;
-	int	pushed;
 	int	i;
 	int	len;
 	int	idx;
 
-	size = a->size;
-	chunk_size = pick_chunk_size(size);
-	chunk_min = 0;
-	chunk_max = chunk_size - 1;
-	pushed = 0;
-	while (pushed < size)
+	i = 0;
+	len = a->size;
+	while (i < len)
 	{
-		i = 0;
-		len = a->size;
-		while (i < len)
+		idx = a->arr[0].index;
+		if (idx >= chunk.min && idx <= chunk.max)
 		{
-			idx = a->arr[0].index;
-			if (idx >= chunk_min && idx <= chunk_max)
-			{
-				push(a, b, ops, "pb\n");
-				pushed++;
-				if (idx > chunk_min + (chunk_size / 2) && b->size > 1)
-					rotate(b, ops, "rb\n");
-			}
-			else
-				rotate(a, ops, "ra\n");
-			i++;
+			push(a, b, ops, "pb\n");
+			(*chunk.pushed)++;
+			if (idx > chunk.min + (chunk.max - chunk.min) / 2 && b->size > 1)
+				rotate(b, ops, "rb\n");
 		}
-		chunk_min += chunk_size;
-		chunk_max += chunk_size;
-		if (chunk_max >= size)
-			chunk_max = size - 1;
+		else
+			rotate(a, ops, "ra\n");
+		i++;
 	}
+}
+
+static void	final_rebuild(t_stack *a, t_stack *b, t_ops *ops)
+{
 	while (b->size)
 	{
 		push_max_to_top_b(b, ops);
 		push(b, a, ops, "pa\n");
 	}
+}
+
+static void	process_chunks(t_stack *a, t_stack *b, t_ops *ops, t_chunk *chunk)
+{
+	while (*(chunk->pushed) < chunk->size)
+	{
+		push_chunk_elem(a, b, ops, *chunk);
+		chunk->min += chunk->chunk_size;
+		chunk->max += chunk->chunk_size;
+		if (chunk->max >= chunk->size)
+			chunk->max = chunk->size - 1;
+	}
+}
+
+void	chunk_sort(t_stack *a, t_stack *b, t_ops *ops)
+{
+	int		pushed;
+	t_chunk	chunk;
+
+	pushed = 0;
+	chunk.size = a->size;
+	chunk.chunk_size = pick_chunk_size(chunk.size);
+	chunk.min = 0;
+	chunk.max = chunk.chunk_size - 1;
+	chunk.pushed = &pushed;
+	process_chunks(a, b, ops, &chunk);
+	final_rebuild(a, b, ops);
 }

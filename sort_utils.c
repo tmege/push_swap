@@ -64,3 +64,31 @@ void	min_to_top(t_stack *a, t_ops *ops)
 			revrotate(a, ops, "rra\n");
 	}
 }
+
+void	push_max_to_top_b(t_stack *b, t_ops *ops)
+{
+	int	max;
+	int	pos;
+	int	i;
+
+	max = b->arr[0].index;
+	pos = 0;
+	i = 1;
+	while (i < b->size)
+	{
+		if (b->arr[i].index > max)
+		{
+			max = b->arr[i].index;
+			pos = i;
+		}
+		i++;
+	}
+	if (pos == 1)
+		swap(b, ops, "sb\n");
+	else if (pos <= b->size / 2)
+		while (pos-- > 0)
+			rotate(b, ops, "rb\n");
+	else
+		while (pos++ < b->size)
+			revrotate(b, ops, "rrb\n");
+}

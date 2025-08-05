@@ -65,3 +65,15 @@ void	sort_5(t_stack *a, t_stack *b, t_ops *ops)
 	push(b, a, ops, "pa\n");
 	push(b, a, ops, "pa\n");
 }
+
+void	sort_small_stack(t_stack *a, t_stack *b, t_ops *ops)
+{
+	if (a->size == 2)
+		sort_2(a, ops);
+	else if (a->size == 3)
+		sort_3(a, ops);
+	else if (a->size == 4)
+		sort_4(a, b, ops);
+	else if (a->size == 5)
+		sort_5(a, b, ops);
+}

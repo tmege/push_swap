@@ -23,30 +23,35 @@ int	cmp_int(const void *a, const void *b)
 	return (ia - ib);
 }
 
-// Attribue à chaque valeur son rang dans la stack
-void	index_stack(t_stack *a)
+static int	*copy_values(t_stack *a)
 {
 	int	*tmp;
 	int	i;
-	int	j;
 
+	i = 0;
 	tmp = malloc(sizeof(int) * a->size);
 	if (!tmp)
 		error_exit();
-	i = 0;
 	while (i < a->size)
 	{
 		tmp[i] = a->arr[i].value;
 		i++;
 	}
-	qsort(tmp, a->size, sizeof(int), cmp_int);
+	return (tmp);
+}
+
+static void	assign_indices(t_stack *a, int *sorted)
+{
+	int	i;
+	int	j;
+
 	i = 0;
 	while (i < a->size)
 	{
 		j = 0;
 		while (j < a->size)
 		{
-			if (a->arr[i].value == tmp[j])
+			if (a->arr[i].value == sorted[j])
 			{
 				a->arr[i].index = j;
 				break ;
@@ -55,5 +60,38 @@ void	index_stack(t_stack *a)
 		}
 		i++;
 	}
+}
+
+static void	bubble_sort(int *arr, int size)
+{
+	int	i;
+	int	j;
+	int	tmp;
+
+	i = 0;
+	while (i < size - 1)
+	{
+		j = 0;
+		while (j < size - i - 1)
+		{
+			if (arr[j] > arr[j + 1])
+			{
+				tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	index_stack(t_stack *a)
+{
+	int	*tmp;
+
+	tmp = copy_values(a);
+	bubble_sort(tmp, a->size);
+	assign_indices(a, tmp);
 	free(tmp);
 }
