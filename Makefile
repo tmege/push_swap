@@ -18,7 +18,7 @@ $(LIBFT_A):
 $(NAME): $(OBJ) $(LIBFT_A)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_A) -o $(NAME) $(INCLUDES)
 
-%.o: %.c
+%.o: %.c Makefile push_swap.h libft/includes/*.h libft/Makefile libft/srcs/ft_printf/Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 clean:
