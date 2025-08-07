@@ -54,7 +54,7 @@ Ce projet est une excellente introduction à l'algorithmique, à la gestion de l
 ---
 ## Algorithme a O(n√n)
 
-![Courbe de representation big O](push_swap_perf.png)
+![Courbe de representation big O](assets/push_swap_perf.png)
 
 
 ---
