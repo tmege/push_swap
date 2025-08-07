@@ -12,17 +12,6 @@
 
 #include "push_swap.h"
 
-// Compare int, croissant (pour qsort)
-int	cmp_int(const void *a, const void *b)
-{
-	int	ia;
-	int	ib;
-
-	ia = *(const int *)a;
-	ib = *(const int *)b;
-	return (ia - ib);
-}
-
 static int	*copy_values(t_stack *a)
 {
 	int	*tmp;
