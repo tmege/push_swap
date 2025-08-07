@@ -52,8 +52,15 @@ Ce projet est une excellente introduction à l'algorithmique, à la gestion de l
 - `t_chunk` : structure de travail pour le tri par groupes
 
 ---
+## Algorithme a O(n√n)
+
+![Courbe de representation big O](push_swap_perf.png)
+
+
+---
 
 ## 🛠️ Compilation
 
 ```bash
 make
+
