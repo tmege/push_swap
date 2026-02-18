@@ -37,49 +37,59 @@ typedef struct s_ops
 	int		cap;
 }	t_ops;
 
-typedef struct s_chunk
+typedef struct s_cost
 {
-	int	min;
-	int	max;
-	int	size;
-	int	chunk_size;
-	int	*pushed;
-}	t_chunk;
+	int	cost_a;
+	int	cost_b;
+	int	total;
+}	t_cost;
 
+// ops_utils.c
 void	init_ops(t_ops *ops);
 void	add_op(t_ops *ops, char *op);
-void	optimize_ops(t_ops *ops);
 void	print_ops(t_ops *ops);
 void	free_ops(t_ops *ops);
 
+// optimize_ops.c
+void	optimize_ops(t_ops *ops);
+
 // parsing.c
+void	parse_args(int argc, char **argv, t_stack *a);
+
+// parsing_utils.c
 void	error_exit(void);
 int		is_number(char *str);
 int		is_duplicate(t_stack *a, int value);
 void	free_stack(t_stack *stack);
 long	ft_atol(const char *str);
-void	parse_args(int argc, char **argv, t_stack *a);
 
 // indexing.c
 void	index_stack(t_stack *a);
 
-// operations.c
+// ops.c
 void	swap(t_stack *s, t_ops *ops, char *op);
 void	push(t_stack *src, t_stack *dst, t_ops *ops, char *op);
 void	rotate(t_stack *s, t_ops *ops, char *op);
 void	revrotate(t_stack *s, t_ops *ops, char *op);
 
-// sort.c
-int		is_sorted(t_stack *a);
-void	sort_2(t_stack *a, t_ops *ops);
+// sort_small.c
 void	sort_3(t_stack *a, t_ops *ops);
+void	sort_small_stack(t_stack *a, t_stack *b, t_ops *ops);
+
+// sort_utils.c
+int		is_sorted(t_stack *a);
 int		min_pos(t_stack *a);
 void	min_to_top(t_stack *a, t_ops *ops);
-void	sort_4(t_stack *a, t_stack *b, t_ops *ops);
-void	sort_5(t_stack *a, t_stack *b, t_ops *ops);
-void	sort_small_stack(t_stack *a, t_stack *b, t_ops *ops);
+void	rotate_to_top_a(t_stack *a, t_ops *ops, int pos);
 void	push_max_to_top_b(t_stack *b, t_ops *ops);
-int		pick_chunk_size(int size);
-void	chunk_sort(t_stack *a, t_stack *b, t_ops *ops);
+
+// turk_sort.c
+void	turk_sort(t_stack *a, t_stack *b, t_ops *ops);
+
+// turk_cost.c
+t_cost	calc_cost(t_stack *a, t_stack *b, int i);
+
+// turk_exec.c
+void	execute_move(t_stack *a, t_stack *b, t_ops *ops, t_cost cost);
 
 #endif

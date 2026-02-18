@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	sort_2(t_stack *a, t_ops *ops)
+static void	sort_2(t_stack *a, t_ops *ops)
 {
 	if (a->arr[0].value > a->arr[1].value)
 		swap(a, ops, "sa\n");
@@ -47,7 +47,7 @@ void	sort_3(t_stack *a, t_ops *ops)
 		revrotate(a, ops, "rra\n");
 }
 
-void	sort_4(t_stack *a, t_stack *b, t_ops *ops)
+static void	sort_4(t_stack *a, t_stack *b, t_ops *ops)
 {
 	min_to_top(a, ops);
 	push(a, b, ops, "pb\n");
@@ -55,7 +55,7 @@ void	sort_4(t_stack *a, t_stack *b, t_ops *ops)
 	push(b, a, ops, "pa\n");
 }
 
-void	sort_5(t_stack *a, t_stack *b, t_ops *ops)
+static void	sort_5(t_stack *a, t_stack *b, t_ops *ops)
 {
 	min_to_top(a, ops);
 	push(a, b, ops, "pb\n");

@@ -65,6 +65,20 @@ void	min_to_top(t_stack *a, t_ops *ops)
 	}
 }
 
+void	rotate_to_top_a(t_stack *a, t_ops *ops, int pos)
+{
+	if (pos <= a->size / 2)
+	{
+		while (pos-- > 0)
+			rotate(a, ops, "ra\n");
+	}
+	else
+	{
+		while (pos++ < a->size)
+			revrotate(a, ops, "rra\n");
+	}
+}
+
 void	push_max_to_top_b(t_stack *b, t_ops *ops)
 {
 	int	max;

@@ -83,16 +83,23 @@ static int	try_optimize_pair(t_ops *ops, int i)
 void	optimize_ops(t_ops *ops)
 {
 	int	i;
+	int	changed;
 
-	i = 0;
-	while (i < ops->size - 1)
+	changed = 1;
+	while (changed)
 	{
-		if (try_optimize_pair(ops, i))
+		changed = 0;
+		i = 0;
+		while (i < ops->size - 1)
 		{
-			if (i > 0)
-				i--;
-			continue ;
+			if (try_optimize_pair(ops, i))
+			{
+				changed = 1;
+				if (i > 0)
+					i--;
+				continue ;
+			}
+			i++;
 		}
-		i++;
 	}
 }

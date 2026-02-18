@@ -38,8 +38,7 @@ static void	run_sort(t_stack *a, t_stack *b)
 		if (a->size <= 5)
 			sort_small_stack(a, b, &ops);
 		else
-			chunk_sort(a, b, &ops);
-		optimize_ops(&ops);
+			turk_sort(a, b, &ops);
 		optimize_ops(&ops);
 		print_ops(&ops);
 	}

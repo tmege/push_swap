@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/includes/ft_printf.h"
+#include "ft_printf.h"
 
 static int	ft_handle_conversion(const char *format, int *i, va_list args)
 {
